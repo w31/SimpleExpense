@@ -20,6 +20,27 @@ namespace SimpleExpense.API.DataAccess
 
             categories.ForEach(p => context.Categories.Add(p));
             context.SaveChanges();
+
+            var expenses = new List<ExpenseItem>
+            {
+                new ExpenseItem
+                {
+                    Payee = "Everyday Mart",
+                    Date = DateTime.Today,
+                    Amount = 23.89m,
+                    CategoryID = context.Categories.First(p => p.Name == "Groceries").ID,
+                },
+                new ExpenseItem
+                {
+                    Payee = "Green Energy",
+                    Date = DateTime.Today,
+                    Amount = 47.50m,
+                    CategoryID = context.Categories.First(p => p.Name == "Utility").ID,
+                },
+            };
+
+            expenses.ForEach(p => context.Expenses.Add(p));
+            context.SaveChanges();
         }
     }
 }
