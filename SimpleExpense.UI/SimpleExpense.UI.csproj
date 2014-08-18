@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\main.css" />
     <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.woff" />
