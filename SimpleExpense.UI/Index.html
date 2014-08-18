@@ -29,7 +29,7 @@
             </div>
 
             <table class="table table-striped">
-                <tr ng-repeat="item in app.expenses">
+                <tr ng-repeat="item in app.expenses | orderBy:'-Date'">
                     <td>{{ item.Date | date:'mediumDate' }}</td>
                     <td>{{ item.Payee }}</td>
                     <td>{{ item.Amount | currency }}</td>
