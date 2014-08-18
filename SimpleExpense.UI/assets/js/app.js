@@ -33,6 +33,15 @@ app.controller('CategoryController', ['expenseService', function (expenseService
     };
 }]);
 
+app.controller('ExpenseItemController', ['expenseService', function (expenseService) {
+    this.expenseItem = {};
+
+    this.addExpense = function () {
+        expenseService.addExpense(this.expenseItem);
+        this.expenseItem = {};
+    };
+}]);
+
 app.service('expenseService', ['$http', function ($http) {
     var endpoint = "http://localhost:11171/api";
 
