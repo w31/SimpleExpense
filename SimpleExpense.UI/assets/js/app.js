@@ -3,6 +3,9 @@
 app.controller('AppController', ['expenseService', function (expenseService) {
     var thisApp = this;
 
+    thisApp.categories = [];
+    thisApp.expenses = [];
+
     expenseService.getCategories().success(function (data) {
         thisApp.categories = data;
     });
