@@ -1,5 +1,7 @@
 ﻿var app = angular.module('expenseApp', []);
 
+app.value('expenseUrl', 'http://localhost:11171/api');
+
 app.controller('AppController', ['expenseService', function (expenseService) {
     var thisApp = this;
 
@@ -45,22 +47,20 @@ app.controller('ExpenseItemController', ['expenseService', function (expenseServ
     };
 }]);
 
-app.service('expenseService', ['$http', function ($http) {
-    var endpoint = "http://localhost:11171/api";
-
+app.service('expenseService', ['$http', 'expenseUrl', function ($http, expenseUrl) {
     this.getCategories = function () {
-        return $http.get(endpoint + '/category');
+        return $http.get(expenseUrl + '/category');
     };
 
     this.addCategory = function (data) {
-        return $http.post(endpoint + '/category', data);
+        return $http.post(expenseUrl + '/category', data);
     }
 
     this.getExpenses = function () {
-        return $http.get(endpoint + '/expense');
+        return $http.get(expenseUrl + '/expense');
     };
 
     this.addExpense = function (data) {
-        return $http.post(endpoint + '/expense', data);
+        return $http.post(expenseUrl + '/expense', data);
     };
 }]);
