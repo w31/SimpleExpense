@@ -1,11 +1,18 @@
 ﻿<div class="panel panel-default">
-    <div class="panel-heading">Categories</div>
-
-    <a href="#/categories/new" class="btn btn-default">Add</a>
+    <div class="panel-heading">
+        <a href="#/categories/new" class="btn btn-primary">Add</a>
+    </div>
 
     <table class="table table-striped">
-        <tr ng-repeat="category in categories">
-            <td>{{ category.Name }}</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Category Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="category in categories">
+                <td>{{ category.Name }}</td>
+            </tr>
+        </tbody>
     </table>
 </div>
