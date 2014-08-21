@@ -1,0 +1,13 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">Expenses</div>
+
+    <a href="#/expenses/new" class="btn btn-default">Add</a>
+
+    <table class="table table-striped">
+        <tr ng-repeat="item in expenses | orderBy:'-Date'">
+            <td>{{ item.Date | date:'mediumDate' }}</td>
+            <td>{{ item.Payee }}</td>
+            <td>{{ item.Amount | currency }}</td>
+        </tr>
+    </table>
+</div>

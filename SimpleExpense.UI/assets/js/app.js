@@ -1,49 +1,62 @@
-﻿var app = angular.module('expenseApp', []);
+﻿var app = angular.module('expenseApp', ['ngRoute']);
 
 app.value('expenseUrl', 'http://localhost:11171/api');
 
-app.controller('AppController', ['expenseService', function (expenseService) {
-    var thisApp = this;
+app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+        .when('/expenses', {
+            controller: 'ExpenseController',
+            templateUrl: 'ExpenseList.html'
+        })
+        .when('/expenses/new', {
+            controller: 'CreateExpenseController',
+            templateUrl: 'ExpenseDetail.html'
+        })
+        .when('/categories', {
+            controller: 'CategoryController',
+            templateUrl: 'CategoryList.html'
+        })
+        .when('/categories/new', {
+            controller: 'CreateCategoryController',
+            templateUrl: 'CategoryDetail.html'
+        })
+        .otherwise({
+            redirectTo: '/expenses'
+        })
+}]);
 
-    thisApp.categories = [];
-    thisApp.expenses = [];
-
-    expenseService.getCategories().success(function (data) {
-        thisApp.categories = data;
-    });
-
+app.controller('ExpenseController', ['$scope', 'expenseService', function ($scope, expenseService) {
     expenseService.getExpenses().success(function (data) {
-        thisApp.expenses = data;
+        $scope.expenses = data;
     });
 }]);
 
-app.controller('NavController', function () {
-    this.tab = 1;
+app.controller('CreateExpenseController', ['$scope', '$location', 'expenseService', function ($scope, $location, expenseService) {
+    //TODO: cache categories
+    expenseService.getCategories().success(function (data) {
+        $scope.categories = data;
+    });
 
-    this.setTab = function (tab) {
-        this.tab = tab;
-    }
-
-    this.isSet = function (tab) {
-        return this.tab === tab;
-    };
-});
-
-app.controller('CategoryController', ['expenseService', function (expenseService) {
-    this.category = {};
-
-    this.addCategory = function () {
-        expenseService.addCategory(this.category);
-        this.category = {};
+    $scope.add = function () {
+        expenseService.addExpense($scope.expenseItem)
+            .success(function () {
+                $location.path('/expenses');
+            });
     };
 }]);
 
-app.controller('ExpenseItemController', ['expenseService', function (expenseService) {
-    this.expenseItem = {};
+app.controller('CategoryController', ['$scope', 'expenseService', function ($scope, expenseService) {
+    expenseService.getCategories().success(function (data) {
+        $scope.categories = data;
+    });
+}]);
 
-    this.addExpense = function () {
-        expenseService.addExpense(this.expenseItem);
-        this.expenseItem = {};
+app.controller('CreateCategoryController', ['$scope', '$location', 'expenseService', function ($scope, $location, expenseService) {
+    $scope.add = function () {
+        expenseService.addCategory($scope.category)
+            .success(function () {
+                $location.path('/categories');
+            });
     };
 }]);
 

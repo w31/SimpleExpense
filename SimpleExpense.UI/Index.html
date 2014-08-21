@@ -5,58 +5,21 @@
     <link href="assets/vendor/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/main.css" rel="stylesheet" />
     <script src="assets/vendor/js/angular.min.js"></script>
+    <script src="assets/vendor/js/angular-resource.min.js"></script>
+    <script src="assets/vendor/js/angular-route.min.js"></script>
 </head>
-<body ng-controller="AppController as app">
+<body>
 
-    <div class="container" ng-controller="NavController as nav">
-        <ul class="nav nav-tabs" role="tablist">
-            <li ng-class="{ active: nav.isSet(1) }"><a href="" ng-click="nav.setTab(1)">Expenses</a></li>
-            <li ng-class="{ active: nav.isSet(2) }"><a href="" ng-click="nav.setTab(2)">Categories</a></li>
-        </ul>
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <a href="" class="navbar-brand">SimpleExpense</a>
+            <ul class="nav navbar-nav">
+                <li><a href="#/expenses">Expenses</a></li>
+                <li><a href="#/categories">Categories</a></li>
+            </ul>
+        </nav>
 
-        <div class="panel panel-default" ng-show="nav.isSet(1)">
-            <div class="panel-heading">Expenses</div>
-            <div class="panel-body">
-                <form class="form-inline" name="expenseItemForm" ng-controller="ExpenseItemController as expenseCtrl" ng-submit="expenseItemForm.$valid && expenseCtrl.addExpense()" novalidate>
-                    <div class="form-group">
-                        <input type="date" class="form-control" placeholder="Date" title="Date" ng-model="expenseCtrl.expenseItem.Date" required />
-                        <input type="text" class="form-control" placeholder="Payee" title="Payee" ng-model="expenseCtrl.expenseItem.Payee" required />
-                        <input type="text" class="form-control" placeholder="Amount" title="Amount" ng-model="expenseCtrl.expenseItem.Amount" required />
-                        <select class="form-control" ng-model="expenseCtrl.expenseItem.CategoryID" ng-options="category.ID as category.Name for category in app.categories" required>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Expense</button>
-                </form>
-            </div>
-
-            <table class="table table-striped">
-                <tr ng-repeat="item in app.expenses | orderBy:'-Date'">
-                    <td>{{ item.Date | date:'mediumDate' }}</td>
-                    <td>{{ item.Payee }}</td>
-                    <td>{{ item.Amount | currency }}</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="panel panel-default" ng-show="nav.isSet(2)">
-            <div class="panel-heading">Categories</div>
-
-            <div class="panel-body">
-                <form class="form-inline" name="categoryForm" ng-controller="CategoryController as categoryCtrl" ng-submit="categoryForm.$valid && categoryCtrl.addCategory()" novalidate>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Category name" title="Category" ng-model="categoryCtrl.category.Name" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Category</button>
-                </form>
-            </div>
-
-            <table class="table table-striped">
-                <tr ng-repeat="category in app.categories">
-                    <td>{{ category.Name }}</td>
-                </tr>
-            </table>
-        </div>
-
+        <div ng-view></div>
     </div>
 
     <script src="assets/js/app.js"></script>

@@ -1,0 +1,11 @@
+﻿<div class="panel-body">
+    <form class="form-inline" name="expenseItemForm" ng-submit="add()" novalidate>
+        <div class="form-group">
+            <input type="date" class="form-control" placeholder="Date" title="Date" ng-model="expenseItem.Date" required />
+            <input type="text" class="form-control" placeholder="Payee" title="Payee" ng-model="expenseItem.Payee" required />
+            <input type="text" class="form-control" placeholder="Amount" title="Amount" ng-model="expenseItem.Amount" required />
+            <select class="form-control" ng-model="expenseItem.CategoryID" ng-options="category.ID as category.Name for category in categories" required></select>
+        </div>
+        <button class="btn btn-primary" ng-disabled="expenseItemForm.$invalid" ng-click="add()">Add Expense</button>
+    </form>
+</div>

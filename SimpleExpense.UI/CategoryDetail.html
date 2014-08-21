@@ -1,0 +1,10 @@
+﻿<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-inline" name="categoryForm" novalidate>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Category name" title="Category" ng-model="category.Name" required />
+            </div>
+            <button class="btn btn-primary" ng-disabled="categoryForm.$invalid" ng-click="add()">Add Category</button>
+        </form>
+    </div>
+</div>
