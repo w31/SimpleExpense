@@ -1,18 +1,25 @@
 ﻿<div class="panel panel-default">
     <div class="panel-heading">
-        <a href="#/categories/new" class="btn btn-primary">Add</a>
+        Categories
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Category Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="category in categories">
-                <td>{{ category.Name }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="panel-body">
+        <a href="#/categories/new" class="btn btn-primary col-md-1">Add</a>
+        <div class="col-md-2 pull-right">
+            <input type="search" class="form-control" placeholder="Search" ng-model="search" />
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="category in categories | filter:search">
+                    <td>{{ category.Name }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
