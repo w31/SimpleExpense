@@ -25,6 +25,12 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
 }]);
 
+app.controller('NavController', ['$scope', '$location', function ($scope, $location) {
+    $scope.isActive = function (loc) {
+        return $location.path().indexOf(loc) === 0;
+    };
+}]);
+
 app.controller('ExpenseController', ['$scope', 'expenseService', function ($scope, expenseService) {
     expenseService.getExpenses().success(function (data) {
         $scope.expenses = data;
