@@ -1,6 +1,6 @@
 ﻿var app = angular.module('expenseApp', ['ngRoute']);
 
-app.value('expenseUrl', 'http://localhost:11171/api');
+app.constant('expenseUrl', 'http://localhost:11171/api');
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
