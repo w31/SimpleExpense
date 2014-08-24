@@ -57,10 +57,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\controllers.js" />
+    <Content Include="app\services.js" />
     <Content Include="assets\css\main.css" />
-    <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="vendor\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="vendor\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="vendor\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -69,24 +71,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\js\app.js" />
-    <Content Include="assets\vendor\css\bootstrap-theme.css" />
-    <Content Include="assets\vendor\css\bootstrap.min.css" />
-    <Content Include="assets\vendor\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="assets\vendor\js\angular-resource.min.js" />
-    <Content Include="assets\vendor\js\angular-route.min.js" />
-    <Content Include="assets\vendor\js\angular.min.js" />
-    <Content Include="assets\vendor\js\bootstrap.min.js" />
-    <Content Include="CategoryDetail.html" />
-    <Content Include="CategoryList.html" />
-    <Content Include="ExpenseDetail.html" />
-    <Content Include="ExpenseList.html" />
+    <Content Include="app\app.js" />
+    <Content Include="vendor\css\bootstrap-theme.css" />
+    <Content Include="vendor\css\bootstrap.min.css" />
+    <Content Include="vendor\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="vendor\js\angular-resource.min.js" />
+    <Content Include="vendor\js\angular-route.min.js" />
+    <Content Include="vendor\js\angular.min.js" />
+    <Content Include="vendor\js\bootstrap.min.js" />
+    <Content Include="app\views\CategoryDetail.html" />
+    <Content Include="app\views\CategoryList.html" />
+    <Content Include="app\views\ExpenseDetail.html" />
+    <Content Include="app\views\ExpenseList.html" />
     <Content Include="Index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
