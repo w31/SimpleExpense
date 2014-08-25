@@ -38,3 +38,37 @@ angular.module('expenseApp').controller('CreateCategoryController', ['$scope', '
             });
     };
 }]);
+
+angular.module('expenseApp').controller('DashboardController', ['expenseService', function (expenseService) {
+    function getRandomColor() {
+        var color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
+        return color;
+    }
+
+    expenseService.getExpenses().success(function (data) {
+        var expenseByCategory = {};
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+            if (expenseByCategory[data[i].CategoryID] === undefined) {
+                expenseByCategory[data[i].CategoryID] = 0;
+            }
+
+            expenseByCategory[data[i].CategoryID] += data[i].Amount;
+        }
+
+        var pieData = new Array();
+        for (var key in expenseByCategory) {
+            var color = getRandomColor();
+
+            pieData.push({
+                value: expenseByCategory[key],
+                color: color,
+                highlight: color,
+                label: key
+            });
+        }
+
+        var ctx = document.getElementById("dashboard").getContext("2d");
+        var chart = new Chart(ctx).Pie(pieData);
+    });
+}]);

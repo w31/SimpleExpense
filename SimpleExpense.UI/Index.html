@@ -13,6 +13,7 @@
             <ul class="nav navbar-nav" ng-controller="NavController">
                 <li ng-class="{ active: isActive('/expenses') }"><a href="#/expenses">Expenses</a></li>
                 <li ng-class="{ active: isActive('/categories') }"><a href="#/categories">Categories</a></li>
+                <li ng-class="{ active: isActive('/dashboard') }"><a href="#/dashboard">Dashboard</a></li>
             </ul>
         </nav>
 
@@ -22,6 +23,7 @@
     <script src="vendor/js/angular.min.js"></script>
     <script src="vendor/js/angular-resource.min.js"></script>
     <script src="vendor/js/angular-route.min.js"></script>
+    <script src="vendor/js/Chart.min.js"></script>
     <script src="app/app.js"></script>
     <script src="app/controllers.js"></script>
     <script src="app/services.js"></script>
