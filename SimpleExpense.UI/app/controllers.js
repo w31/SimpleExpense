@@ -40,6 +40,13 @@ angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$lo
                 $location.path('/expenses');
             });
     };
+
+    $scope.delete = function () {
+        expenseService.deleteExpense($scope.expenseItem.ID)
+            .success(function () {
+                $location.path('/expenses');
+            });
+    };
 }]);
 
 angular.module('expenseApp').controller('CategoryController', ['$scope', 'expenseService', function ($scope, expenseService) {

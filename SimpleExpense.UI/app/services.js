@@ -30,4 +30,8 @@
     this.updateExpense = function (id, data) {
         return $http.put(expenseUrl + '/expense/' + id, data);
     };
+
+    this.deleteExpense = function (id) {
+        return $http.delete(expenseUrl + '/expense/' + id);
+    };
 }]);
