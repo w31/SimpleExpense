@@ -15,6 +15,7 @@
                     <th>Date</th>
                     <th>Payee</th>
                     <th>Amount</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,7 @@
                     <td>{{ item.Date | date:'mediumDate' }}</td>
                     <td>{{ item.Payee }}</td>
                     <td>{{ item.Amount | currency }}</td>
+                    <td><a href="#/expenses/edit/{{item.ID}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                 </tr>
             </tbody>
         </table>

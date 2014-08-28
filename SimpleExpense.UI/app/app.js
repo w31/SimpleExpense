@@ -12,6 +12,10 @@ angular.module('expenseApp').config(['$routeProvider', function ($routeProvider)
             controller: 'CreateExpenseController',
             templateUrl: 'app/views/ExpenseDetail.html'
         })
+        .when('/expenses/edit/:id', {
+            controller: 'EditExpenseController',
+            templateUrl: 'app/views/ExpenseDetail.html'
+        })
         .when('/categories', {
             controller: 'CategoryController',
             templateUrl: 'app/views/CategoryList.html'

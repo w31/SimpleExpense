@@ -16,8 +16,26 @@ angular.module('expenseApp').controller('CreateExpenseController', ['$scope', '$
         $scope.categories = data;
     });
 
-    $scope.add = function () {
+    $scope.save = function () {
         expenseService.addExpense($scope.expenseItem)
+            .success(function () {
+                $location.path('/expenses');
+            });
+    };
+}]);
+
+angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$location', '$routeParams', 'expenseService', function ($scope, $location, $routeParams, expenseService) {
+    //TODO: cache categories
+    expenseService.getCategories().success(function (data) {
+        $scope.categories = data;
+    });
+
+    expenseService.getExpenseById($routeParams.id).success(function (data) {
+        $scope.expenseItem = data;
+    });
+
+    $scope.save = function () {
+        expenseService.updateExpense($scope.expenseItem.ID, $scope.expenseItem)
             .success(function () {
                 $location.path('/expenses');
             });
