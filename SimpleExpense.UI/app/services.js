@@ -3,8 +3,16 @@
         return $http.get(expenseUrl + '/category');
     };
 
+    this.getCategoryById = function (id) {
+        return $http.get(expenseUrl + '/category/' + id);
+    };
+
     this.addCategory = function (data) {
         return $http.post(expenseUrl + '/category', data);
+    }
+
+    this.updateCategory = function (id, data) {
+        return $http.put(expenseUrl + '/category/' + id, data);
     }
 
     this.getExpenses = function () {

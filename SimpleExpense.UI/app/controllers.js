@@ -49,8 +49,21 @@ angular.module('expenseApp').controller('CategoryController', ['$scope', 'expens
 }]);
 
 angular.module('expenseApp').controller('CreateCategoryController', ['$scope', '$location', 'expenseService', function ($scope, $location, expenseService) {
-    $scope.add = function () {
+    $scope.save = function () {
         expenseService.addCategory($scope.category)
+            .success(function () {
+                $location.path('/categories');
+            });
+    };
+}]);
+
+angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$location', '$routeParams', 'expenseService', function ($scope, $location, $routeParams, expenseService) {
+    expenseService.getCategoryById($routeParams.id).success(function (data) {
+        $scope.category = data;
+    });
+
+    $scope.save = function () {
+        expenseService.updateCategory($scope.category.ID, $scope.category)
             .success(function () {
                 $location.path('/categories');
             });

@@ -13,11 +13,13 @@
             <thead>
                 <tr>
                     <th>Category Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="category in categories | filter:search">
                     <td>{{ category.Name }}</td>
+                    <td><a href="#/categories/edit/{{category.ID}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                 </tr>
             </tbody>
         </table>
