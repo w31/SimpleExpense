@@ -49,29 +49,33 @@ angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$lo
     };
 }]);
 
-angular.module('expenseApp').controller('CategoryController', ['$scope', 'expenseService', function ($scope, expenseService) {
-    expenseService.getCategories().success(function (data) {
+angular.module('expenseApp').controller('CategoryController', ['$scope', 'Category', function ($scope, Category) {
+    Category.query(function (data) {
         $scope.categories = data;
     });
 }]);
 
-angular.module('expenseApp').controller('CreateCategoryController', ['$scope', '$location', 'expenseService', function ($scope, $location, expenseService) {
+angular.module('expenseApp').controller('CreateCategoryController', ['$scope', '$location', 'Category', function ($scope, $location, Category) {
     $scope.save = function () {
-        expenseService.addCategory($scope.category)
-            .success(function () {
-                $location.path('/categories');
-            });
+        var newCategory = new Category();
+        newCategory.Name = $scope.category.Name;
+        newCategory.$save(function () {
+            $location.path('/categories');
+        });
     };
 }]);
 
-angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$location', '$routeParams', 'expenseService', function ($scope, $location, $routeParams, expenseService) {
-    expenseService.getCategoryById($routeParams.id).success(function (data) {
-        $scope.category = data;
-    });
+angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$location', '$routeParams', 'Category', function ($scope, $location, $routeParams, Category) {
+    Category.get({ ID: $routeParams.id })
+        .$promise
+        .then(function (c) {
+            $scope.category = c;
+        });
 
     $scope.save = function () {
-        expenseService.updateCategory($scope.category.ID, $scope.category)
-            .success(function () {
+        Category.update({ ID: $routeParams.id }, $scope.category)
+            .$promise
+            .then(function () {
                 $location.path('/categories');
             });
     };

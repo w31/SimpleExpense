@@ -1,4 +1,4 @@
-﻿angular.module('expenseApp', ['ngRoute']);
+﻿angular.module('expenseApp', ['ngRoute', 'ngResource']);
 
 angular.module('expenseApp').constant('expenseUrl', 'http://localhost:11171/api');
 

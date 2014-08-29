@@ -35,3 +35,11 @@
         return $http.delete(expenseUrl + '/expense/' + id);
     };
 }]);
+
+angular.module('expenseApp').factory('Category', ['$resource', 'expenseUrl', function ($resource, expenseUrl) {
+    return $resource(expenseUrl + '/category/:id',
+        null,
+        {
+            'update': { method: 'PUT' }
+        });
+}]);
