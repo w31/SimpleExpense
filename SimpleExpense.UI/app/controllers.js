@@ -83,13 +83,13 @@ angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$l
     };
 }]);
 
-angular.module('expenseApp').controller('DashboardController', ['expenseService', function (expenseService) {
+angular.module('expenseApp').controller('DashboardController', ['Expense', function (Expense) {
     function getRandomColor() {
         var color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
         return color;
     }
 
-    expenseService.getExpenses().success(function (data) {
+    Expense.query(function (data) {
         var expenseByCategory = {};
         var len = data.length;
         for (var i = 0; i < len; i++) {
