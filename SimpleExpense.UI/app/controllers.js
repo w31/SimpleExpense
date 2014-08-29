@@ -4,46 +4,48 @@
     };
 }]);
 
-angular.module('expenseApp').controller('ExpenseController', ['$scope', 'expenseService', function ($scope, expenseService) {
-    expenseService.getExpenses().success(function (data) {
+angular.module('expenseApp').controller('ExpenseController', ['$scope', 'Expense', function ($scope, Expense) {
+    Expense.query(function (data) {
         $scope.expenses = data;
     });
 }]);
 
-angular.module('expenseApp').controller('CreateExpenseController', ['$scope', '$location', 'expenseService', function ($scope, $location, expenseService) {
-    //TODO: cache categories
-    expenseService.getCategories().success(function (data) {
+angular.module('expenseApp').controller('CreateExpenseController', ['$scope', '$location', 'Expense', 'Category', function ($scope, $location, Expense, Category) {
+    Category.query(function (data) {
         $scope.categories = data;
     });
 
     $scope.save = function () {
-        expenseService.addExpense($scope.expenseItem)
-            .success(function () {
-                $location.path('/expenses');
-            });
+        var expense = new Expense($scope.expenseItem);
+        expense.$save(function () {
+            $location.path('/expenses');
+        });
     };
 }]);
 
-angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$location', '$routeParams', 'expenseService', function ($scope, $location, $routeParams, expenseService) {
-    //TODO: cache categories
-    expenseService.getCategories().success(function (data) {
+angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$location', '$routeParams', 'Expense', 'Category', function ($scope, $location, $routeParams, Expense, Category) {
+    Category.query(function (data) {
         $scope.categories = data;
     });
 
-    expenseService.getExpenseById($routeParams.id).success(function (data) {
-        $scope.expenseItem = data;
-    });
+    Expense.get({ ID: $routeParams.id })
+        .$promise
+        .then(function (expense) {
+            $scope.expenseItem = expense;
+        });
 
     $scope.save = function () {
-        expenseService.updateExpense($scope.expenseItem.ID, $scope.expenseItem)
-            .success(function () {
+        Expense.update({ ID: $routeParams.id }, $scope.expenseItem)
+            .$promise
+            .then(function () {
                 $location.path('/expenses');
             });
     };
 
     $scope.delete = function () {
-        expenseService.deleteExpense($scope.expenseItem.ID)
-            .success(function () {
+        Expense.delete({ ID: $routeParams.id })
+            .$promise
+            .then(function () {
                 $location.path('/expenses');
             });
     };
