@@ -83,10 +83,17 @@ angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$l
     };
 }]);
 
-angular.module('expenseApp').controller('DashboardController', ['Expense', function (Expense) {
+angular.module('expenseApp').controller('DashboardController', ['$scope', 'Expense', function ($scope, Expense) {
     function getRandomColor() {
         var color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
         return color;
+    }
+
+    function drawChart() {
+        var canvas = document.getElementById("dashboard");
+        canvas.width = window.innerWidth - (canvas.offsetLeft * 2);
+        canvas.height = window.innerHeight - (canvas.offsetTop * 2);
+        var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData);
     }
 
     Expense.query(function (data) {
@@ -100,11 +107,11 @@ angular.module('expenseApp').controller('DashboardController', ['Expense', funct
             expenseByCategory[data[i].CategoryID] += data[i].Amount;
         }
 
-        var pieData = new Array();
+        $scope.pieData = new Array();
         for (var key in expenseByCategory) {
             var color = getRandomColor();
 
-            pieData.push({
+            $scope.pieData.push({
                 value: expenseByCategory[key],
                 color: color,
                 highlight: color,
@@ -112,7 +119,6 @@ angular.module('expenseApp').controller('DashboardController', ['Expense', funct
             });
         }
 
-        var ctx = document.getElementById("dashboard").getContext("2d");
-        var chart = new Chart(ctx).Pie(pieData);
+        drawChart();
     });
 }]);
