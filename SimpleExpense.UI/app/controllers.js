@@ -93,7 +93,7 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Expen
         var canvas = document.getElementById("dashboard");
         canvas.width = window.innerWidth - (canvas.offsetLeft * 2);
         canvas.height = window.innerHeight - (canvas.offsetTop * 2);
-        var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData);
+        var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData, { animation: false });
     }
 
     Expense.query(function (data) {
