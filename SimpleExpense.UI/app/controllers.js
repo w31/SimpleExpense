@@ -121,4 +121,16 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Expen
 
         drawChart();
     });
+
+    function onResize() {
+        drawChart();
+    }
+
+    function onBeforeDeactivate() {
+        angular.element(window).off("resize", onResize);
+        angular.element(document).off("beforedeactivate", onBeforeDeactivate);
+    }
+
+    angular.element(window).on("resize", onResize);
+    angular.element(document).on("beforedeactivate", onBeforeDeactivate);
 }]);
