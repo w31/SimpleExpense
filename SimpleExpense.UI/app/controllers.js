@@ -99,7 +99,7 @@ angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$l
     };
 }]);
 
-angular.module('expenseApp').controller('DashboardController', ['$scope', 'Expense', function ($scope, Expense) {
+angular.module('expenseApp').controller('DashboardController', ['$scope', 'Category', 'Expense', function ($scope, Category, Expense) {
     function getRandomColor() {
         var color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
         return color;
@@ -111,6 +111,14 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Expen
         canvas.height = window.innerHeight - (canvas.offsetTop * 2);
         var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData, { animation: false });
     }
+
+    var categoryLookup = {};
+    Category.query(function(data) {
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+            categoryLookup[data[i].ID] = data[i].Name;
+        }
+    });
 
     Expense.query(function (data) {
         var expenseByCategory = {};
@@ -131,7 +139,7 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Expen
                 value: expenseByCategory[key],
                 color: color,
                 highlight: color,
-                label: key
+                label: categoryLookup[key]
             });
         }
 
