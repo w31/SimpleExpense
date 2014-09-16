@@ -21,6 +21,10 @@ angular.module('expenseApp').controller('CreateExpenseController', ['$scope', '$
             $location.path('/expenses');
         });
     };
+
+    $scope.cancel = function() {
+        $location.path('/expenses');
+    };
 }]);
 
 angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$location', '$routeParams', 'Expense', 'Category', function ($scope, $location, $routeParams, Expense, Category) {
@@ -49,6 +53,10 @@ angular.module('expenseApp').controller('EditExpenseController', ['$scope', '$lo
                 $location.path('/expenses');
             });
     };
+
+    $scope.cancel = function () {
+        $location.path('/expenses');
+    };
 }]);
 
 angular.module('expenseApp').controller('CategoryController', ['$scope', 'Category', function ($scope, Category) {
@@ -65,6 +73,10 @@ angular.module('expenseApp').controller('CreateCategoryController', ['$scope', '
             $location.path('/categories');
         });
     };
+
+    $scope.cancel = function() {
+        $location.path('/categories');
+    };
 }]);
 
 angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$location', '$routeParams', 'Category', function ($scope, $location, $routeParams, Category) {
@@ -80,6 +92,10 @@ angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$l
             .then(function () {
                 $location.path('/categories');
             });
+    };
+
+    $scope.cancel = function () {
+        $location.path('/categories');
     };
 }]);
 
