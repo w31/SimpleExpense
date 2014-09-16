@@ -14,7 +14,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Payee</th>
-                    <th>Amount</th>
+                    <th class="right-align">Amount</th>
                     <th></th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@
                 <tr ng-repeat="item in expenses | filter:search | orderBy:'-Date'">
                     <td>{{ item.Date | date:'mediumDate' }}</td>
                     <td>{{ item.Payee }}</td>
-                    <td>{{ item.Amount | currency }}</td>
+                    <td class="right-align">{{ item.Amount | currency }}</td>
                     <td><a href="#/expenses/edit/{{item.ID}}"><i class="glyphicon glyphicon-pencil"></i></a></td>
                 </tr>
             </tbody>
