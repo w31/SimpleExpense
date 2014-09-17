@@ -136,7 +136,7 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
             var color = getRandomColor();
 
             $scope.pieData.push({
-                value: expenseByCategory[key],
+                value: Number(expenseByCategory[key].toFixed(2)),
                 color: color,
                 highlight: color,
                 label: categoryLookup[key]
