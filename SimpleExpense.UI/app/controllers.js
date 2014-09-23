@@ -121,21 +121,27 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
     });
 
     Expense.query(function (data) {
+        $scope.pieData = getPieData(data, categoryLookup);
+
+        drawChart();
+    });
+
+    function getPieData(expenseData, categoryLookup) {
         var expenseByCategory = {};
-        var len = data.length;
+        var len = expenseData.length;
         for (var i = 0; i < len; i++) {
-            if (expenseByCategory[data[i].CategoryID] === undefined) {
-                expenseByCategory[data[i].CategoryID] = 0;
+            if (expenseByCategory[expenseData[i].CategoryID] === undefined) {
+                expenseByCategory[expenseData[i].CategoryID] = 0;
             }
 
-            expenseByCategory[data[i].CategoryID] += data[i].Amount;
+            expenseByCategory[expenseData[i].CategoryID] += expenseData[i].Amount;
         }
 
-        $scope.pieData = new Array();
+        var pieData = new Array();
         for (var key in expenseByCategory) {
             var color = getRandomColor();
 
-            $scope.pieData.push({
+            pieData.push({
                 value: Number(expenseByCategory[key].toFixed(2)),
                 color: color,
                 highlight: color,
@@ -143,8 +149,8 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
             });
         }
 
-        drawChart();
-    });
+        return pieData;
+    }
 
     function onResize() {
         drawChart();
