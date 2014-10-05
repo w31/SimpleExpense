@@ -120,32 +120,22 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
         }
     });
 
-    Expense.query(function (data) {
+    Expense.getbycategory(function (data) {
         $scope.pieData = getPieData(data, categoryLookup);
 
         drawChart();
     });
 
-    function getPieData(expenseData, categoryLookup) {
-        var expenseByCategory = {};
-        var len = expenseData.length;
-        for (var i = 0; i < len; i++) {
-            if (expenseByCategory[expenseData[i].CategoryID] === undefined) {
-                expenseByCategory[expenseData[i].CategoryID] = 0;
-            }
-
-            expenseByCategory[expenseData[i].CategoryID] += expenseData[i].Amount;
-        }
-
+    function getPieData(expenseByCategory, categoryLookup) {
         var pieData = new Array();
-        for (var key in expenseByCategory) {
+        for (var i = 0; i < expenseByCategory.length; i++) {
             var color = getRandomColor();
 
             pieData.push({
-                value: Number(expenseByCategory[key].toFixed(2)),
+                value: expenseByCategory[i].Amount,
                 color: color,
                 highlight: color,
-                label: categoryLookup[key]
+                label: categoryLookup[expenseByCategory[i].CategoryID]
             });
         }
 

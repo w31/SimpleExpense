@@ -10,6 +10,8 @@ angular.module('expenseApp').factory('Expense', ['$resource', 'expenseUrl', func
     return $resource(expenseUrl + '/expense/:id',
         null,
         {
-            'update': { method: 'PUT' }
+            'update': { method: 'PUT' },
+            'getbycategory': { method: 'GET', url: expenseUrl + '/expense/bycategory', isArray: true },
+            'getbymonth': { method: 'GET', url: expenseUrl + '/expense/bymonth', isArray: true }
         });
 }]);
