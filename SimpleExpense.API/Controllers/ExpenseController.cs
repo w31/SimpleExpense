@@ -1,9 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
+using SimpleExpense.API.Contracts;
 using SimpleExpense.API.DataAccess;
 using SimpleExpense.API.Models;
 
@@ -96,6 +98,36 @@ namespace SimpleExpense.API.Controllers
             db.SaveChanges();
 
             return Ok(expenseItem);
+        }
+
+        [Route("api/expense/bycategory")]
+        public IEnumerable<CategoryExpense> GetExpensesByCategory()
+        {
+            var expenses = db.Expenses;
+
+            var response = expenses.GroupBy(p => p.CategoryID)
+                .Select(grouping =>
+                    new CategoryExpense {CategoryID = grouping.Key, Amount = grouping.Sum(item => item.Amount)});
+
+            return response;
+        }
+
+        [Route("api/expense/bymonth")]
+        public IEnumerable<MonthExpense> GetExpensesByMonth()
+        {
+            var expenses = db.Expenses;
+
+            var response = expenses.GroupBy(p => p.Date.Month)
+                .Select(grouping =>
+                    new MonthExpense
+                    {
+                        Month = grouping.Key,
+                        CategoryExpenses = grouping.GroupBy(p => p.CategoryID)
+                            .Select(q => new CategoryExpense {CategoryID = q.Key, Amount = q.Sum(r => r.Amount)})
+                            .ToList()
+                    });
+
+            return response;
         }
 
         protected override void Dispose(bool disposing)
