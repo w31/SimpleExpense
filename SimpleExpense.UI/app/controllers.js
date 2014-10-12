@@ -109,7 +109,7 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
         var canvas = document.getElementById("dashboard");
         canvas.width = window.innerWidth - (canvas.offsetLeft * 2);
         canvas.height = window.innerHeight - (canvas.offsetTop * 2);
-        var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData, { animation: false });
+        var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData, { animation: false, responsive: true });
     }
 
     var categoryLookup = {};
@@ -141,16 +141,4 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
 
         return pieData;
     }
-
-    function onResize() {
-        drawChart();
-    }
-
-    function onBeforeDeactivate() {
-        angular.element(window).off("resize", onResize);
-        angular.element(document).off("beforedeactivate", onBeforeDeactivate);
-    }
-
-    angular.element(window).on("resize", onResize);
-    angular.element(document).on("beforedeactivate", onBeforeDeactivate);
 }]);
