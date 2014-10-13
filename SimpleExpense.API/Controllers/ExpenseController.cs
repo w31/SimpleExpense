@@ -113,19 +113,36 @@ namespace SimpleExpense.API.Controllers
         }
 
         [Route("api/expense/bymonth")]
-        public IEnumerable<MonthExpense> GetExpensesByMonth()
+        public ExpensesByCategoryAndMonthResponse GetExpensesByCategoryAndMonth()
         {
-            var expenses = db.Expenses;
+            var response = new ExpensesByCategoryAndMonthResponse();
 
-            var response = expenses.GroupBy(p => p.Date.Month)
-                .Select(grouping =>
-                    new MonthExpense
-                    {
-                        Month = grouping.Key,
-                        CategoryExpenses = grouping.GroupBy(p => p.CategoryID)
-                            .Select(q => new CategoryExpense {CategoryID = q.Key, Amount = q.Sum(r => r.Amount)})
-                            .ToList()
-                    });
+            var expenses = db.Expenses.OrderBy(p => p.Date).ToArray();
+
+            response.Months = expenses.Select(p => p.Date.Month.ToString()).Distinct().ToArray();
+
+            var categoryMonthlyExpenses = new Dictionary<int, Dictionary<int, decimal>>();
+
+            foreach (var item in expenses)
+            {
+                if (!categoryMonthlyExpenses.ContainsKey(item.CategoryID))
+                {
+                    categoryMonthlyExpenses.Add(item.CategoryID, new Dictionary<int, decimal>());
+                }
+
+                if (!categoryMonthlyExpenses[item.CategoryID].ContainsKey(item.Date.Month))
+                {
+                    categoryMonthlyExpenses[item.CategoryID].Add(item.Date.Month, 0m);
+                }
+
+                categoryMonthlyExpenses[item.CategoryID][item.Date.Month] += item.Amount;
+            }
+
+            response.Categories = categoryMonthlyExpenses.Select(p => new CategoryMonthExpenses
+            {
+                CategoryID = p.Key,
+                MonthlyAmount = p.Value.Values.ToArray()
+            }).ToArray();
 
             return response;
         }

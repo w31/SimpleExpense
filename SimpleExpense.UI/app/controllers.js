@@ -99,17 +99,17 @@ angular.module('expenseApp').controller('EditCategoryController', ['$scope', '$l
     };
 }]);
 
-angular.module('expenseApp').controller('DashboardController', ['$scope', 'Category', 'Expense', function ($scope, Category, Expense) {
+angular.module('expenseApp').controller('DashboardController', ['$scope', '$location', 'Category', 'Expense', function ($scope, $location, Category, Expense) {
     function getRandomColor() {
         var color = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
         return color;
     }
 
-    function drawChart() {
+    function getChartObject() {
         var canvas = document.getElementById("dashboard");
         canvas.width = window.innerWidth - (canvas.offsetLeft * 2);
         canvas.height = window.innerHeight - (canvas.offsetTop * 2);
-        var chart = new Chart(canvas.getContext("2d")).Pie($scope.pieData, { animation: false, responsive: true });
+        return new Chart(canvas.getContext("2d"));
     }
 
     var categoryLookup = {};
@@ -120,25 +120,44 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', 'Categ
         }
     });
 
-    Expense.getbycategory(function (data) {
-        $scope.pieData = getPieData(data, categoryLookup);
+    if ($location.search()["chart"] === "bar") {
+        Expense.getbymonth(function (data) {
+            var barData = {
+                labels: data.Months,
+                datasets: []
+            };
 
-        drawChart();
-    });
+            for (var i = 0; i < data.Categories.length; i++) {
+                var color = getRandomColor();
+                var highlightColor = getRandomColor();
 
-    function getPieData(expenseByCategory, categoryLookup) {
-        var pieData = new Array();
-        for (var i = 0; i < expenseByCategory.length; i++) {
-            var color = getRandomColor();
+                barData.datasets.push({
+                    label: categoryLookup[data.Categories[i].CategoryID],
+                    fillColor: color,
+                    strokeColor: color,
+                    highlightFill: highlightColor,
+                    highlightStroke: highlightColor,
+                    data: data.Categories[i].MonthlyAmount
+                });
+            }
 
-            pieData.push({
-                value: expenseByCategory[i].Amount,
-                color: color,
-                highlight: color,
-                label: categoryLookup[expenseByCategory[i].CategoryID]
-            });
-        }
+            getChartObject().Bar(barData, { animation: false, responsive: true });
+        });
+    } else {
+        Expense.getbycategory(function (data) {
+            var pieData = new Array();
+            for (var i = 0; i < data.length; i++) {
+                var color = getRandomColor();
 
-        return pieData;
+                pieData.push({
+                    value: data[i].Amount,
+                    color: color,
+                    highlight: color,
+                    label: categoryLookup[data[i].CategoryID]
+                });
+            }
+
+            getChartObject().Pie(pieData, { animation: false, responsive: true });
+        });
     }
 }]);
