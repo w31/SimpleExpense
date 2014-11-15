@@ -140,7 +140,9 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', '$loca
                 });
             }
 
-            getChartObject().Bar(barData, { animation: false, responsive: true });
+            var barChart = getChartObject().Bar(barData, { animation: false, responsive: true });
+
+            document.getElementById("legend").innerHTML = barChart.generateLegend();
         });
     } else {
         Expense.getbycategory(function (data) {

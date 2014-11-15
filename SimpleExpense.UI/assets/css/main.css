@@ -10,3 +10,21 @@ form .ng-dirty.ng-valid {
 .right-align {
     text-align: right;
 }
+
+#legend ul {
+    list-style-type: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#legend ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#legend ul li span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
