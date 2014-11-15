@@ -129,14 +129,13 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', '$loca
 
             for (var i = 0; i < data.Categories.length; i++) {
                 var color = getRandomColor();
-                var highlightColor = getRandomColor();
 
                 barData.datasets.push({
                     label: categoryLookup[data.Categories[i].CategoryID],
                     fillColor: color,
                     strokeColor: color,
-                    highlightFill: highlightColor,
-                    highlightStroke: highlightColor,
+                    highlightFill: color,
+                    highlightStroke: color,
                     data: data.Categories[i].MonthlyAmount
                 });
             }

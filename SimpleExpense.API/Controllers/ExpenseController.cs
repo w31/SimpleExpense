@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -117,25 +118,24 @@ namespace SimpleExpense.API.Controllers
         {
             var response = new ExpensesByCategoryAndMonthResponse();
 
-            var expenses = db.Expenses.OrderBy(p => p.Date).ToArray();
+            var expenses = db.Expenses.Where(p => p.Date.Year == DateTime.Today.Year).OrderBy(p => p.Date).ToArray();
 
-            response.Months = expenses.Select(p => p.Date.Month.ToString()).Distinct().ToArray();
+            response.Months = GetYearToDate();
 
-            var categoryMonthlyExpenses = new Dictionary<int, Dictionary<int, decimal>>();
+            var availableCategories = expenses.Select(p => p.CategoryID).Distinct().OrderBy(p => p);
 
-            foreach (var item in expenses)
+            var categoryMonthlyExpenses = new Dictionary<int, Dictionary<string, decimal>>();
+
+            foreach (var cat in availableCategories)
             {
-                if (!categoryMonthlyExpenses.ContainsKey(item.CategoryID))
+                categoryMonthlyExpenses.Add(cat, new Dictionary<string, decimal>());
+                foreach (var mth in response.Months)
                 {
-                    categoryMonthlyExpenses.Add(item.CategoryID, new Dictionary<int, decimal>());
+                    var amount = expenses
+                        .Where(p => p.CategoryID == cat && p.Date.ToString("MMM") == mth)
+                        .Sum(p => p.Amount);
+                    categoryMonthlyExpenses[cat].Add(mth, amount);
                 }
-
-                if (!categoryMonthlyExpenses[item.CategoryID].ContainsKey(item.Date.Month))
-                {
-                    categoryMonthlyExpenses[item.CategoryID].Add(item.Date.Month, 0m);
-                }
-
-                categoryMonthlyExpenses[item.CategoryID][item.Date.Month] += item.Amount;
             }
 
             response.Categories = categoryMonthlyExpenses.Select(p => new CategoryMonthExpenses
@@ -145,6 +145,20 @@ namespace SimpleExpense.API.Controllers
             }).ToArray();
 
             return response;
+        }
+
+        private static IList<string> GetYearToDate()
+        {
+            var months = new List<string>();
+
+            var month = new DateTime(DateTime.Today.Year, 1, 1);
+            for (var i = 0; i < DateTime.Today.Month; i++)
+            {
+                months.Add(month.ToString("MMM"));
+                month = month.AddMonths(1);
+            }
+
+            return months;
         }
 
         protected override void Dispose(bool disposing)
