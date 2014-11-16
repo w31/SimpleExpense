@@ -104,7 +104,7 @@ namespace SimpleExpense.API.Controllers
         [Route("api/expense/bycategory")]
         public IEnumerable<CategoryExpense> GetExpensesByCategory()
         {
-            var expenses = db.Expenses;
+            var expenses = db.Expenses.Where(p => p.Date.Year == DateTime.Today.Year);
 
             var response = expenses.GroupBy(p => p.CategoryID)
                 .Select(grouping =>
