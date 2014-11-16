@@ -140,9 +140,9 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', '$loca
                 });
             }
 
-            var barChart = getChartObject().Bar(barData, { animation: false, responsive: true });
+            $scope.chart = getChartObject().Bar(barData, { animation: false, responsive: true });
 
-            document.getElementById("legend").innerHTML = barChart.generateLegend();
+            document.getElementById("legend").innerHTML = $scope.chart.generateLegend();
         });
     } else {
         Expense.getbycategory(function (data) {
@@ -158,7 +158,11 @@ angular.module('expenseApp').controller('DashboardController', ['$scope', '$loca
                 });
             }
 
-            getChartObject().Pie(pieData, { animation: false, responsive: true });
+            $scope.chart = getChartObject().Pie(pieData, { animation: false, responsive: true });
         });
     }
+
+    $scope.$on('$locationChangeStart', function () {
+        $scope.chart.destroy();
+    });
 }]);
