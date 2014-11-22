@@ -11,7 +11,12 @@ namespace SimpleExpense.API.Controllers
 {
     public class CategoryController : ApiController
     {
-        private ExpenseContext db = new ExpenseContext();
+        private ExpenseContext db;
+
+        public CategoryController(ExpenseContext context)
+        {
+            db = context;
+        }
 
         // GET: api/Category
         public IQueryable<Category> GetCategories()

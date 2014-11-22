@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
 using System.Web.Http;
-using System.Web.Routing;
 
 namespace SimpleExpense.API
 {
@@ -12,6 +9,10 @@ namespace SimpleExpense.API
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new DependencyResolution.SimpleExpenseApiModule());
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(builder.Build());
         }
     }
 }
