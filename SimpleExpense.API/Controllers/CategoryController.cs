@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Net;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleExpense.API.DataAccess;
 using SimpleExpense.API.Models;
 
 namespace SimpleExpense.API.Controllers
 {
-    public class CategoryController : ApiController
+    [Route("api/[controller]")]
+    public class CategoryController : Controller
     {
         private ExpenseContext db;
 
@@ -24,8 +24,8 @@ namespace SimpleExpense.API.Controllers
         }
 
         // GET: api/Category/5
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult GetCategory(int id)
+        // [ResponseType(typeof(Category))]
+        public IActionResult GetCategory(int id)
         {
             Category category = db.Categories.Find(id);
             if (category == null)
@@ -37,8 +37,8 @@ namespace SimpleExpense.API.Controllers
         }
 
         // PUT: api/Category/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutCategory(int id, Category category)
+        // [ResponseType(typeof(void))]
+        public IActionResult PutCategory(int id, Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -68,12 +68,12 @@ namespace SimpleExpense.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return NoContent();
         }
 
         // POST: api/Category
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult PostCategory(Category category)
+        // [ResponseType(typeof(Category))]
+        public IActionResult PostCategory(Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -87,8 +87,8 @@ namespace SimpleExpense.API.Controllers
         }
 
         // DELETE: api/Category/5
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult DeleteCategory(int id)
+        // [ResponseType(typeof(Category))]
+        public IActionResult DeleteCategory(int id)
         {
             Category category = db.Categories.Find(id);
             if (category == null)

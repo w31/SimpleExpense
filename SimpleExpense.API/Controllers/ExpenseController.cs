@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleExpense.API.Contracts;
 using SimpleExpense.API.DataAccess;
@@ -11,7 +10,8 @@ using SimpleExpense.API.Models;
 
 namespace SimpleExpense.API.Controllers
 {
-    public class ExpenseController : ApiController
+    [Route("api/[controller]")]
+    public class ExpenseController : Controller
     {
         private ExpenseContext db;
 
@@ -27,8 +27,8 @@ namespace SimpleExpense.API.Controllers
         }
 
         // GET: api/Expense/5
-        [ResponseType(typeof(ExpenseItem))]
-        public IHttpActionResult GetExpenseItem(int id)
+        // [ResponseType(typeof(ExpenseItem))]
+        public IActionResult GetExpenseItem(int id)
         {
             ExpenseItem expenseItem = db.Expenses.Find(id);
             if (expenseItem == null)
@@ -40,8 +40,8 @@ namespace SimpleExpense.API.Controllers
         }
 
         // PUT: api/Expense/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutExpenseItem(int id, ExpenseItem expenseItem)
+        // [ResponseType(typeof(void))]
+        public IActionResult PutExpenseItem(int id, ExpenseItem expenseItem)
         {
             if (!ModelState.IsValid)
             {
@@ -71,12 +71,12 @@ namespace SimpleExpense.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return NoContent();
         }
 
         // POST: api/Expense
-        [ResponseType(typeof(ExpenseItem))]
-        public IHttpActionResult PostExpenseItem(ExpenseItem expenseItem)
+        // [ResponseType(typeof(ExpenseItem))]
+        public IActionResult PostExpenseItem(ExpenseItem expenseItem)
         {
             if (!ModelState.IsValid)
             {
@@ -90,8 +90,8 @@ namespace SimpleExpense.API.Controllers
         }
 
         // DELETE: api/Expense/5
-        [ResponseType(typeof(ExpenseItem))]
-        public IHttpActionResult DeleteExpenseItem(int id)
+        // [ResponseType(typeof(ExpenseItem))]
+        public IActionResult DeleteExpenseItem(int id)
         {
             ExpenseItem expenseItem = db.Expenses.Find(id);
             if (expenseItem == null)
