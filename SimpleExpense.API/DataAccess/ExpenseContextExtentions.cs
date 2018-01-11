@@ -1,15 +1,14 @@
-﻿using SimpleExpense.API.Models;
+using SimpleExpense.API.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
 namespace SimpleExpense.API.DataAccess
 {
-    public class ExpenseInitializer : DropCreateDatabaseIfModelChanges<ExpenseContext>
+    public static class ExpenseContextExtentions
     {
-        protected override void Seed(ExpenseContext context)
+        public static void EnsureSeeded(this ExpenseContext context)
         {
             var categories = new List<Category>
             {

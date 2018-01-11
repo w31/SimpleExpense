@@ -1,22 +1,21 @@
-﻿using SimpleExpense.API.Models;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using Microsoft.EntityFrameworkCore;
+using SimpleExpense.API.Models;
 
 namespace SimpleExpense.API.DataAccess
 {
     public class ExpenseContext : DbContext
     {
-        public ExpenseContext()
-            : base("ExpenseConnection")
+        public ExpenseContext(DbContextOptions<ExpenseContext> options)
+            : base(options)
         {
         }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<ExpenseItem> Expenses { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            // modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }
