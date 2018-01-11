@@ -18,6 +18,7 @@ namespace SimpleExpense.API.Controllers
         }
 
         // GET: api/Category
+        [HttpGet]
         public IQueryable<Category> GetCategories()
         {
             return db.Categories;
@@ -25,6 +26,7 @@ namespace SimpleExpense.API.Controllers
 
         // GET: api/Category/5
         // [ResponseType(typeof(Category))]
+        [HttpGet("{id}")]
         public IActionResult GetCategory(int id)
         {
             Category category = db.Categories.Find(id);
@@ -38,7 +40,8 @@ namespace SimpleExpense.API.Controllers
 
         // PUT: api/Category/5
         // [ResponseType(typeof(void))]
-        public IActionResult PutCategory(int id, Category category)
+        [HttpPut("{id}")]
+        public IActionResult PutCategory(int id, [FromBody] Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +76,8 @@ namespace SimpleExpense.API.Controllers
 
         // POST: api/Category
         // [ResponseType(typeof(Category))]
-        public IActionResult PostCategory(Category category)
+        [HttpPost]
+        public IActionResult PostCategory([FromBody] Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -88,6 +92,7 @@ namespace SimpleExpense.API.Controllers
 
         // DELETE: api/Category/5
         // [ResponseType(typeof(Category))]
+        [HttpDelete("{id}")]
         public IActionResult DeleteCategory(int id)
         {
             Category category = db.Categories.Find(id);
