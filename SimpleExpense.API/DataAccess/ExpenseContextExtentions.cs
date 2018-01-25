@@ -17,8 +17,11 @@ namespace SimpleExpense.API.DataAccess
                 new Category { Name = "Groceries" },
             };
 
-            categories.ForEach(p => context.Categories.Add(p));
-            context.SaveChanges();
+            if (!context.Categories.Any())
+            {
+                categories.ForEach(p => context.Categories.Add(p));
+                context.SaveChanges();
+            }
 
             var expenses = new List<ExpenseItem>
             {
@@ -38,8 +41,11 @@ namespace SimpleExpense.API.DataAccess
                 },
             };
 
-            expenses.ForEach(p => context.Expenses.Add(p));
-            context.SaveChanges();
+            if (!context.Expenses.Any())
+            {
+                expenses.ForEach(p => context.Expenses.Add(p));
+                context.SaveChanges();
+            }
         }
     }
 }

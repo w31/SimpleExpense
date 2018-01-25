@@ -31,7 +31,7 @@ namespace SimpleExpense.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ExpenseContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -39,6 +39,9 @@ namespace SimpleExpense.API
             }
 
             app.UseMvc();
+
+            dbContext.Database.EnsureCreated();
+            dbContext.EnsureSeeded();
         }
     }
 }
