@@ -41,7 +41,6 @@ namespace SimpleExpense.API
             app.UseMvc();
 
             dbContext.Database.EnsureCreated();
-            dbContext.EnsureSeeded();
         }
     }
 }
